@@ -1,6 +1,8 @@
 # pypi-publish-workflow
 
-Creates a __Github Actions__ workflow for automatic publications to PyPi. Version data from a python file gets extracted and then used my the PyPi setup process. The workflow will only be triggered for the publication of new releases.
+This is a __Github Actions__ workflow for automatic publications to PyPi. Version data from a python file is extracted and then used by the PyPi setup process which will publish the package to PyPi Test and Prod. 
+
+The workflow will only be triggered for the publication of new repo releases.
 
 ## Installation instructions
 
