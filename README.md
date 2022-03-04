@@ -45,6 +45,8 @@ This Github action will do the following __whenever a new release is published__
 - In case of success, write a file called VERSION to your repo's root directory, build the package and then publish the content to PyPi Test
 - If successful, publish to PyPi Prod.
 
+## Test your work flow
+
 The PyPi Prod deployment branch comes with a built-in safeguard which prevents accidental deployments to PyPi prod for cases where you want to do some testing. If you change the default for the Github Action trigger from
 
 ```yml
