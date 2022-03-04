@@ -42,7 +42,7 @@ This Github action will do the following __whenever a new release is published__
 
 - Read the Python file and extract the version information
 - In case of an error, abort the whole process
-- In case of success, write a file called VERSION to your repo's root directory, build the package and then publish the content to PyPi Test
+- In case of success, write a file called ``VERSION`` to your repo's root directory, build the package and then publish the content to PyPi Test
 - If successful, publish to PyPi Prod.
 
 ## Test your work flow
