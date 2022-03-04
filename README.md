@@ -1,6 +1,6 @@
 # pypi-publish-workflow
 
-Creates a Github actions workflow for automatic publications to PyPi. Version data from a python file gets extracted and then used my the PyPi setup process.
+Creates a Github actions workflow for automatic publications to PyPi. Version data from a python file gets extracted and then used my the PyPi setup process. Workflow will only be triggered for the publication of new releases.
 
 ## Installation instructions
 
