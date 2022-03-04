@@ -10,13 +10,13 @@ Creates a Github actions workflow for automatic publications to PyPi. Version da
 - In your Github project, goto ``Settings`` - ``Secrets`` - ``Actions``
 - Create two keys ``TEST_PYPI_API_TOKEN`` and ``PROD_PYPI_API_TOKEN`` and assign the secrets to these values
 
-### Config files overview
+### Overview on config files
 
-This repo contains three files:
+This repo contains three files that you may need to amend and copy to your Github repository:
 
 - ``MANIFEST.in``: Copy this file 'as is' to your repo's root folder. It contains a reference to the future VERSION file.
-- ``setup.py``: regular Python setup.py file; amend the file content and then save the file in your repo's root directory
-- ``publish-to-pypi.yml``: Edit this file, amend the configuration settings and then save the file in your repo's Github Actions directory (``.github/workflows``)
+- ``setup.py``: this is a regular Python setup.py file; amend the file content and then save the file in your repo's root directory
+- ``publish-to-pypi.yml``: Edit this file, amend the configuration settings and then save the file in your repo's Github Actions directory (``.github/workflows``). You may also need to activate the new workflow (instructions are not part of this documentation)
 
 ### Configuring publish-to-pypi.yml
 
@@ -60,4 +60,4 @@ on:
   push:
 ```
 
-, then every change to your repo will trigger the Github Action but should not lead to a publication to PyPi prod __unless you label the release__. When in doubt, you may also want to remove the ``PROD_PYPI_API_TOKEN``'s secret from your Github account.
+then every change to your repo will trigger the Github Action but should not lead to a publication to PyPi prod __unless you label the release__. When in doubt, you may also want to remove the ``PROD_PYPI_API_TOKEN``'s secret from your Github account.
