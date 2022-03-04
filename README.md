@@ -6,7 +6,7 @@ Creates a Github actions workflow for automatic publications to PyPi. Version da
 
 ### Setup Github Secrets
 
-- Create a secret in PyPi Test and PyPi Prod
+- Create a project-scoped secret in [PyPi Test](https://test.pypi.org/) and [PyPi Prod](https://www.pypi.org/)
 - In your Github project, goto ``Settings`` - ``Secrets`` - ``Actions``
 - Create two keys ``TEST_PYPI_API_TOKEN`` and ``PROD_PYPI_API_TOKEN`` and assign the secrets to these values
 
@@ -14,7 +14,7 @@ Creates a Github actions workflow for automatic publications to PyPi. Version da
 
 This repo contains three files:
 
-- ``MANIFEST.in``: Copy this file 'as is' to your repo's root folder
+- ``MANIFEST.in``: Copy this file 'as is' to your repo's root folder. It contains a reference to the future VERSION file.
 - ``setup.py``: regular Python setup.py file; amend the file content and then save the file in your repo's root directory
 - ``publish-to-pypi.yml``: Edit this file, amend the configuration settings and then save the file in your repo's Github Actions directory (``.github/workflows``)
 
@@ -44,3 +44,20 @@ This Github action will do the following __whenever a new release is published__
 - In case of an error, abort the whole process
 - In case of success, write a file called VERSION to your repo's root directory, build the package and then publish the content to PyPi Test
 - If successful, publish to PyPi Prod.
+
+The PyPi Prod deployment branch comes with a built-in safeguard which prevents accidental deployments to PyPi prod for cases where you want to do some testing. If you change the default for the Github Action trigger from
+
+```yml
+on:
+  release:
+    types: [published]
+```
+
+to
+
+```yml
+on:
+  push:
+```
+
+, then every change to your repo will trigger the Github Action but should not lead to a publication to PyPi prod __unless you label the release__. When in doubt, you may also want to remove the ``PROD_PYPI_API_TOKEN``'s secret from your Github account.
