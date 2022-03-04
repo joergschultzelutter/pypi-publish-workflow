@@ -15,8 +15,8 @@ Creates a __Github Actions__ workflow for automatic publications to PyPi. Versio
 This repo contains three files that you may need to amend and copy to your Github repository:
 
 - ``MANIFEST.in``: Copy this file 'as is' to your repo's root folder. It contains a reference to the future ``VERSION`` file which will be created by the Github Action.
-- ``setup.py``: this is a regular Python setup.py file; amend the file content and then save the file in your repo's root directory
-- ``publish-to-pypi.yml``: Edit this file, amend the configuration settings and then save the file in your repo's Github Actions directory (``.github/workflows``). You may also need to activate the new workflow (instructions are not part of this documentation)
+- ``setup.py``: this is a regular Python ``setup.py`` file; amend the file content with your package information and then save the file in your repo's root directory
+- ``publish-to-pypi.yml``: Edit this file, amend the configuration settings (see next chapter) and then save the file in your repo's Github Actions directory (``.github/workflows``). You may also need to activate the new workflow - see [documentation on Github](https://docs.github.com/en/actions).
 
 ### Configuring publish-to-pypi.yml
 
@@ -34,7 +34,7 @@ env:
   REGEX_PATTERN:  __version__\s*=\s*"(.*)"
 ```
 
-Replace the placeholder for the source file and amend the regex, if necessary
+Replace the placeholder for the source file with the relative path to your Python file which contains the version information. Amend the RegEx, if necessary.
 
 ## Running the Github Action
 
@@ -47,7 +47,7 @@ This Github action will do the following __whenever a new release is published__
 
 ## Test your work flow
 
-The PyPi Prod deployment branch comes with a built-in safeguard which prevents accidental deployments to PyPi prod for cases where you want to do some testing. If you change the default for the Github Action trigger from
+The PyPi Prod deployment branch comes with a built-in safeguard which prevents accidental deployments to PyPi Prod for cases where you want to do some testing. If you change the default for the Github Action trigger from
 
 ```yml
 on:
@@ -62,4 +62,4 @@ on:
   push:
 ```
 
-then every change to your repo will trigger the Github Action but should not lead to a publication to PyPi prod __unless you label the release__. When in doubt, you may also want to remove the ``PROD_PYPI_API_TOKEN``'s secret from your Github account.
+then every change to your Github repo will trigger the Github Action but should not lead to a publication to PyPi Prod __unless you label the release__. When in doubt, you may also want to remove the ``PROD_PYPI_API_TOKEN``'s secret from your Github account to ensure that this workflow cannot write to PyPi Prod.
