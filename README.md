@@ -6,9 +6,9 @@ Creates a __Github Actions__ workflow for automatic publications to PyPi. Versio
 
 ### Setup Github Secrets
 
-- Create a project-scoped secret tokens in [PyPi Test](https://test.pypi.org/) and [PyPi Prod](https://www.pypi.org/)
-- In your Github project, goto ``Settings`` - ``Secrets`` - ``Actions``
-- Create two keys ``TEST_PYPI_API_TOKEN`` and ``PROD_PYPI_API_TOKEN`` and assign the previously created secret tokens to these values
+- Create token secrets for both [PyPi Test](https://test.pypi.org/) and [PyPi Prod](https://www.pypi.org/) (``Account Settings`` > ``API Tokens`` > ``Add API token``). 
+- In your Github project, goto ``Settings`` > ``Secrets`` > ``Actions``
+- Create two keys ``TEST_PYPI_API_TOKEN`` and ``PROD_PYPI_API_TOKEN`` and assign the previously created token secrets to these keys
 
 ### Overview on config files
 
