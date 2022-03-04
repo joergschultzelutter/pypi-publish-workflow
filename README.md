@@ -14,7 +14,7 @@ Creates a Github actions workflow for automatic publications to PyPi. Version da
 
 This repo contains three files that you may need to amend and copy to your Github repository:
 
-- ``MANIFEST.in``: Copy this file 'as is' to your repo's root folder. It contains a reference to the future VERSION file.
+- ``MANIFEST.in``: Copy this file 'as is' to your repo's root folder. It contains a reference to the future ``VERSION`` file which will be created by the Github Action.
 - ``setup.py``: this is a regular Python setup.py file; amend the file content and then save the file in your repo's root directory
 - ``publish-to-pypi.yml``: Edit this file, amend the configuration settings and then save the file in your repo's Github Actions directory (``.github/workflows``). You may also need to activate the new workflow (instructions are not part of this documentation)
 
