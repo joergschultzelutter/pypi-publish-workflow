@@ -16,7 +16,6 @@ The workflow will only be triggered for the publication of new repo releases.
 
 This repo contains three files that you may need to amend and copy to your Github repository:
 
-- ``MANIFEST.in``: Copy this file 'as is' to your repo's root folder. It contains a reference to the future ``VERSION`` file which will be created by the Github Action.
 - ``setup.py``: this is a regular Python ``setup.py`` file; amend the file content with your package information and then save the file in your repo's root directory
 - ``publish-to-pypi.yml``: Edit this file, amend the configuration settings (see next chapter) and then save the file in your repo's Github Actions directory (``.github/workflows``). You may also need to activate the new workflow - see [documentation on Github](https://docs.github.com/en/actions).
 
@@ -42,10 +41,10 @@ Replace the placeholder for the source file with the relative path to your Pytho
 
 This Github action will do the following __whenever a new release is published__:
 
-- Read the Python file and extract the version information
-- In case of an error, abort the whole process
-- In case of success, write a file called ``VERSION`` to your repo's root directory, build the package and then publish the content to PyPi Test
-- If successful, publish to PyPi Prod.
+- Read the Python file and extract the version information, based on the given Regex. Abort job if no match was found.
+- Check if the Github ``ref_type`` has the value ``tag``. This is only the case when you drafted a new release. Otherwise, this value is likely set to ``master``. Abort job in case of a mismatch.
+- Check if the Github ``ref_name`` is equal to the extracted version from you Python file. Abort job in case of a mismatch.
+- Build the PyPi package. Deploy it to PyPi Test and (if successful) PyPi Prod.
 
 ## Test your work flow
 

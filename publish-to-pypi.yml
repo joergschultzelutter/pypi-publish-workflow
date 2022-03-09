@@ -1,4 +1,4 @@
-# Workflow: Extract version from Python file, write VERSION file, generate PyPi package and
+# Workflow: Extract version from Python file, verify version against release tag, generate PyPi package and
 #           upload content to PyPi Test / Prod
 #           Will only be executed when a new release is being published
 # Author  : Joerg Schultze-Lutter
@@ -19,18 +19,18 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ##
 #
-# Generic PyPi workflow documentation: https://github.com/marketplace/actions/pypi-publish
+# This Github Action consists of 2 jobs:
 #
-# Github Action consists of 2 jobs:
-#
-# Job 1 will read the Python file which contains the version data, extract it and
-# write a VERSION file to the repo's root folder. For other 
+# Job 1 will read the Python file which contains the version data, extract it,
+# verify if this is a tagged release, verify that release's tag version info
+# against the data that was extracted from the Python file and in case all
+# previous steps were successful, the version information is passed on to the next step.
 #
 # Job 2 will build and distribute the PyPi package to PyPi Test and (if Test deployment
 # was successful) also to Prod
 #
 # External dependencies: 
-# - MANIFEST.im and setup.py from repo root folder
+# - setup.py from repo's root folder
 # - PROD_PYPI_API_TOKEN and TEST_PYPI_API_TOKEN as Github Secrets (Settings > Secrets > Actions)
 #
 # Configuration settings: 
@@ -45,6 +45,7 @@ name: Upload Python Package
 on:
   release:
     types: [published]
+#  push:
 
 # 
 # Configuration section - change values if necessary
@@ -53,7 +54,7 @@ env:
 
   # relative path to your file, e.g.
   # ./src/MyLib/MyLib.py
-  SOURCE_FILE:  ./REPLACE/ME
+  SOURCE_FILE: ./REPLACE/ME
 
   # Regex pattern used for extracting the version data from your fil
   # (usually, this does not need to be changed)
@@ -70,6 +71,10 @@ jobs:
   # VERSION wrhich resides in the repo's root dir
   update-version:
     runs-on: ubuntu-latest
+
+    # Output which is passed to the PyPi publication job
+    outputs: 
+      my-program-version: ${{ steps.regex.outputs.group1 }}
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -97,38 +102,35 @@ jobs:
       # Execute sleep if cancellation was triggered
       - name: Sleep if build was cancelled
         if: ${{ steps.regex.outputs.match == '' }}
-        run: sleep 30s
+        run: sleep 60s
         shell: bash
-      # Write version to 'VERSION' file
-      # As an additional safeguard, the Write command will fail
-      # in case the Regex lookup was unsuccessful and the 
-      # 'cancel build' command didn't kill off our job in time
-      # so don't use an 'if' statement here!
-      #
-      # 'path' needs to be set relative to repo root
-      - name: Write local VERSION file to work repo
-        uses: DamianReeves/write-file-action@master
-        with:
-          path: './VERSION'
-          contents: "${{ steps.regex.outputs.group1 }}"
-          write-mode: overwrite
-      # Push 'VERSION' file to repo.
-      #
-      # 'file-path' does not seem to support absolute or
-      # relative paths, thus making the 'VERSION' file appear 
-      # in the repo's root
-      - name: Update VERSION file in Repo
-        uses: test-room-7/action-update-file@v1
-        with:
-          file-path: 'VERSION'
-          commit-msg: Auto-update of VERSION file
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      # Cancel current build if github reference is not equal to 'tag'
+      # e.g. 'master' for regular non-tagged releases. This is automatically
+      # assigned by Github; only if you tag a release, this value will be 'tag'
+      - name: Cancel build if Github reference is not equal to tag
+        if: ${{ github.ref_type != 'tag' }}
+        uses: andymckay/cancel-action@0.2
+      # Execute sleep if cancellation was triggered
+      - name: Sleep if build was cancelled
+        if: ${{ github.ref_type != 'tag' }}
+        run: sleep 60s
+        shell: bash
+      # Check if Repo tag version is the same as the version from the Github file
+      # Cancel the work flow if assessment is not true
+      - name: Cancel build if Github refname is not equal to Python version
+        if: ${{ github.ref_name != steps.regex.outputs.group1 }}
+        uses: andymckay/cancel-action@0.2
+      # Execute sleep if cancellation was triggered
+      - name: Sleep if build was cancelled
+        if: ${{ github.ref_name != steps.regex.outputs.group1 }}
+        run: sleep 60s
+        shell: bash
 
   #
   # END of Job 1
   # 
-  # If you have reached this point in time, then the 'VERSION' file was
-  # successfully created/updated in the repo's root directory
+  # If you have reached this point in time, then the workflow was
+  # able to detect and extract the version info from your Python file
   #
 
   # 
@@ -142,20 +144,23 @@ jobs:
     needs: update-version
 
     steps:
+
     - uses: actions/checkout@v2
     # Set up Python environment
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.8'
+        
     # Install all dependencies
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install build
-    # Build the package
+    # Build the package. The export MUST be part of THIS step
+    # Otherwise, the Python setup job will not see this information
     - name: Build package
-      run: python -m build
+      run: export GITHUB_PROGRAM_VERSION='${{ needs.update-version.outputs.my-program-version }}';python -m build
     # Publish everything to Test PyPi
     - name: Publish package to Test PyPi
       uses: pypa/gh-action-pypi-publish@release/v1
