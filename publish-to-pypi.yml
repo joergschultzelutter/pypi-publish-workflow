@@ -56,9 +56,12 @@ env:
   # ./src/MyLib/MyLib.py
   SOURCE_FILE: ./REPLACE/ME
 
-  # Regex pattern used for extracting the version data from your fil
+  # Regex pattern used for extracting the version data from your file
   # (usually, this does not need to be changed)
   REGEX_PATTERN:  __version__\s*=\s*"(.*)"
+  
+  # Python version for building the package
+  PYTHON_VERSION: '3.8'
 
 #
 # Job section
@@ -67,8 +70,10 @@ jobs:
   # 
   # BEGIN of Job 1
   #
-  # Get version from Python file and write it to a file named 
-  # VERSION wrhich resides in the repo's root dir
+  # Get version from Python file. Check if source file is actually a
+  # new release. Check if Github release version is equal to the one
+  # extracted from the Python file. Ultimately, forward version information
+  # to next Github Actions job in line.
   update-version:
     runs-on: ubuntu-latest
 
@@ -150,7 +155,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
+        python-version: '${{ env.PYTHON_VERSION }}'
         
     # Install all dependencies
     - name: Install dependencies
