@@ -39,6 +39,7 @@
 #                  a different pattern. Default behavior assumes that
 #                  the version information in your file looks something like this:
 #                  __version__ = "1.2.3"
+# - PYTHON_VERSION: Python version which is used for building the package
 
 name: Upload Python Package 
 
@@ -60,7 +61,7 @@ env:
   # (usually, this does not need to be changed)
   REGEX_PATTERN:  __version__\s*=\s*"(.*)"
   
-  # Python version for building the package
+  # Python version used for building the package
   PYTHON_VERSION: '3.8'
 
 #
