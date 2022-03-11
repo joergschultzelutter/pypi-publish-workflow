@@ -17,7 +17,7 @@ The workflow will only be triggered for the publication of new repo releases.
 This repo contains three files that you may need to amend and copy to your Github repository:
 
 - ``setup.py``: this is a regular Python ``setup.py`` file; amend the file content with your package information and then save the file in your repo's root directory
-- ``publish-to-pypi.yml``: Edit this file, amend the configuration settings (see next chapter) and then save the file in your repo's Github Actions directory (``.github/workflows``). You may also need to activate the new workflow - see [documentation on Github](https://docs.github.com/en/actions).
+- ``publish-to-pypi.yml``: Edit this file, amend the configuration settings (see next chapter) and then save the file in your repo's Github Actions directory (``.github/workflows``). You may also need to activate the new workflow once you have installed it - see [documentation on Github](https://docs.github.com/en/actions).
 
 ### Configuring publish-to-pypi.yml
 
