@@ -53,6 +53,7 @@ name: Upload Python Package
 on:
   release:
     types: [published]
+    branches: [master]
 
 # 
 # Configuration section - change values if necessary
