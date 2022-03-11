@@ -2,7 +2,7 @@
 
 This is a __Github Actions__ workflow for automatic publications to PyPi. Version data from a python file is extracted and then used by the PyPi setup process which will publish the package to PyPi Test and Prod. 
 
-The workflow will only be triggered for the publication of new repo releases.
+The workflow will only be triggered for the publication of new repo releases / prereleases for the 'master' repo branch.
 
 ## Installation instructions
 
@@ -42,12 +42,12 @@ Replace the placeholder for the source file with the relative path to your Pytho
 
 ## Running the Github Action
 
-This Github action will do the following __whenever a new release is published__:
+This Github action will do the following __whenever a new release/pre-release is published for the 'master' branch__:
 
 - Read the Python file and extract the version information, based on the given Regex. Abort job if no match was found.
 - Check if the Github ``ref_type`` has the value ``tag``. This is only the case when you drafted a new release. Otherwise, this value is likely set to ``master``. Abort job in case of a mismatch.
-- Check if the Github ``ref_name`` is equal to the extracted version from you Python file. Abort job in case of a mismatch.
-- Build the PyPi package. Deploy it to PyPi Test and (if successful) PyPi Prod.
+- Check if the Github ``ref_name`` is equal to the extracted version from you Python file. Abort job in case of a mismatch. This will prevent issues where there is a mismatch between your Github release version (tag) and the one in the Python file.
+- Build the PyPi package. Deploy it to PyPi Test and (if successful AND not a pre-release) PyPi Prod.
 
 This job will be triggered for releases AND prereleases in 'created' state (read: you tag a (pre)release in Github). Releases will be pushed to both PyPi Test and Prod whereas prereleases will only be pushed to PyPi Test.
 
