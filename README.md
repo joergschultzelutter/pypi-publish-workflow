@@ -33,9 +33,12 @@ env:
   # Regex pattern used for extracting the version data from your fil
   # (usually, this does not need to be changed)
   REGEX_PATTERN:  __version__\s*=\s*"(.*)"
+  
+  # Python version used for building the package
+  PYTHON_VERSION: '3.8'
 ```
 
-Replace the placeholder for the source file with the relative path to your Python file which contains the version information. Amend the RegEx, if necessary.
+Replace the placeholder for the source file with the relative path to your Python file which contains the version information. Amend the RegEx and the Python version, if necessary.
 
 ## Running the Github Action
 
@@ -46,21 +49,8 @@ This Github action will do the following __whenever a new release is published__
 - Check if the Github ``ref_name`` is equal to the extracted version from you Python file. Abort job in case of a mismatch.
 - Build the PyPi package. Deploy it to PyPi Test and (if successful) PyPi Prod.
 
+This job will be triggered for releases AND prereleases in 'created' state (read: you tag a (pre)release in Github). Releases will be pushed to both PyPi Test and Prod whereas prereleases will only be pushed to PyPi Test.
+
 ## Test your work flow
 
-The PyPi Prod deployment branch comes with a built-in safeguard which prevents accidental deployments to PyPi Prod for cases where you want to do some testing. If you change the default for the Github Action trigger from
-
-```yml
-on:
-  release:
-    types: [published]
-```
-
-to
-
-```yml
-on:
-  push:
-```
-
-then every change to your Github repo will trigger the Github Action but should not lead to a publication to PyPi Prod __unless you label the release__. When in doubt, you may also want to remove the ``PROD_PYPI_API_TOKEN``'s secret from your Github account to ensure that this workflow cannot write to PyPi Prod.
+In case you want to become acquainted with this work flow: The safest way to test the work flow is to create both Github secret entries ``TEST_PYPI_API_TOKEN`` and ``PROD_PYPI_API_TOKEN`` but assign an invalid token to them. When you run the workflow for a new 'master' branch prerelease, the job will try to push it to PyPi Test and will fail because of the invalid token.
