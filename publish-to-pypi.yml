@@ -61,7 +61,7 @@ on:
 env:
 
   # relative path to your file, e.g.
-  # ./src/MyLib/MyLib.py
+  # ./MyLib/MyLib.py
   SOURCE_FILE: ./REPLACE/ME
 
   # Regex pattern used for extracting the version data from your file

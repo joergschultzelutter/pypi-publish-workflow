@@ -24,6 +24,7 @@ if __name__ == "__main__":
         author_email="My email addresse",
         url="URL to my repo",
         packages=find_packages(),
+        include_package_data=True,
         classifiers=[
             "Intended Audience :: Developers",
             "Programming Language :: Python",

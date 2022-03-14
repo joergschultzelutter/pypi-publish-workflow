@@ -27,7 +27,7 @@ Open the file. You will notice a section which looks like this:
 env:
 
   # relative path to your file, e.g.
-  # ./src/MyLib/MyLib.py
+  # ./MyLib/MyLib.py
   SOURCE_FILE:  ./REPLACE/ME
 
   # Regex pattern used for extracting the version data from your fil
