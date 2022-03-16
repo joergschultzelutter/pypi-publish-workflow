@@ -1,5 +1,7 @@
 # pypi-publish-workflow
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![CodeQL](https://github.com/joergschultzelutter/pypi-publish-workflow/actions/workflows/codeql.yml/badge.svg)](https://github.com/joergschultzelutter/pypi-publish-workflow/actions/workflows/codeql.yml)
+
 This is a __Github Actions__ workflow for automatic publications to PyPi. Version data from a python file is extracted and then used by the PyPi setup process which will publish the package to PyPi Test and Prod. 
 
 The workflow will only be triggered for the publication of new repo releases / prereleases for the 'master' repo branch.
