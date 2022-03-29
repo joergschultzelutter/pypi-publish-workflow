@@ -1,0 +1,38 @@
+@startuml
+!theme bluegray
+start
+if (Github Action\nPrecondition:\n\npublished\n(Pre-)Release for\nMaster branch) then (yes)
+    package "get-python-version-info" {
+        :Read\nPython\nFile;
+        :Extract version\ninfo via Regular\nExpression;
+        if (Did we find\nthe RegEx?) then (yes)
+            if (Is this\nCommit\ntagged?) then (no)
+                :Issue Github\nAction abort\ncommand;
+                stop
+            else (yes)
+                if (Github release\nversion equals\nRegex release\nversion?) then (yes)
+                    :Supply RegEx\nversion\nas output;
+                else (no)
+                    :Issue Github\nAction abort\ncommand;
+                    stop
+                endif
+            endif
+        else (no)
+            :Issue Github\nAction abort\ncommand;
+            stop
+        endif
+    }
+    package "deploy-to-pypi" {
+        :Setup\nPython\nenvironment;
+        :Installation\nPython\nDependencies;
+        :Build\nPyPi-\nPacket;
+        :Publish to\nPyPi Test;
+        if (Prerelease?) then (yes)
+        else (no)
+            :Publish to\nPyPi Prod;
+        endif
+
+    }
+endif
+stop
+@enduml

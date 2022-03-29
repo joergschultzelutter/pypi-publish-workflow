@@ -54,3 +54,7 @@ This job will be triggered for releases AND prereleases in 'created' state (read
 ## Test your work flow
 
 In case you want to become acquainted with this work flow: The safest way to test the work flow is to create both Github secret entries ``TEST_PYPI_API_TOKEN`` and ``PROD_PYPI_API_TOKEN`` but assign an invalid token to them. When you run the workflow for a new 'master' branch prerelease, the job will try to push it to PyPi Test and will fail because of the invalid token.
+
+## Workflow
+A basic workflow diagram of this Github Action can be found [here](docs/workflow.jpg)
+
