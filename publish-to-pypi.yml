@@ -179,7 +179,7 @@ jobs:
     # Unlike for the Prod branch, we will push both releases and prerelease to PyPi Test
     - name: Publish package to Test PyPi
       if: github.event_name == 'release' && startsWith(github.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@1.8.7
+      uses: pypa/gh-action-pypi-publish/v1
       with:
         user: __token__
         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
@@ -187,7 +187,7 @@ jobs:
     # Publish everything to Prod PyPi but only if it is not a prerelease
     - name: Publish package to Prod PyPi
       if: github.event_name == 'release' && startsWith(github.ref, 'refs/tags') && !github.event.release.prerelease
-      uses: pypa/gh-action-pypi-publish@1.8.7
+      uses: pypa/gh-action-pypi-publish/v1
       with:
         user: __token__
         password: ${{ secrets.PROD_PYPI_API_TOKEN }}
