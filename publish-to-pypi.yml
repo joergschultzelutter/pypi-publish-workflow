@@ -92,7 +92,7 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4
 
       # Read source file
       - name: Read source file
@@ -103,7 +103,7 @@ jobs:
       # Run regex on content and try to get the version data
       - name: get version via regex
         id: regex
-        uses: kaisugi/action-regex-match@v1.0.0
+        uses: kaisugi/action-regex-match@v1.0.1
         with:
           regex: ${{ env.REGEX_PATTERN }}
           flags: 'gim'
@@ -112,7 +112,7 @@ jobs:
       # Cancellation will have no immediate effect!!!
       - name: Cancel build if version not found
         if: ${{ steps.regex.outputs.match == '' }}
-        uses: andymckay/cancel-action@0.3
+        uses: andymckay/cancel-action@0.4
       # Execute sleep if cancellation was triggered
       - name: Sleep if build was cancelled
         if: ${{ steps.regex.outputs.match == '' }}
@@ -123,7 +123,7 @@ jobs:
       # assigned by Github; only if you tag a release, this value will be 'tag'
       - name: Cancel build if Github reference is not equal to tag
         if: ${{ github.ref_type != 'tag' }}
-        uses: andymckay/cancel-action@0.3
+        uses: andymckay/cancel-action@0.4
       # Execute sleep if cancellation was triggered
       - name: Sleep if build was cancelled
         if: ${{ github.ref_type != 'tag' }}
@@ -133,7 +133,7 @@ jobs:
       # Cancel the work flow if assessment is not true
       - name: Cancel build if Github refname is not equal to Python version
         if: ${{ github.ref_name != steps.regex.outputs.group1 }}
-        uses: andymckay/cancel-action@0.3
+        uses: andymckay/cancel-action@0.4
       # Execute sleep if cancellation was triggered
       - name: Sleep if build was cancelled
         if: ${{ github.ref_name != steps.regex.outputs.group1 }}
@@ -159,7 +159,7 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v3.5.3
+    - uses: actions/checkout@v4
     # Set up Python environment
     - name: Set up Python
       uses: actions/setup-python@v4
