@@ -12,7 +12,7 @@ The workflow will only be triggered for the publication of new repo releases / p
 
 - Create token secrets for both [PyPi Test](https://test.pypi.org/) and [PyPi Prod](https://www.pypi.org/) (``Account Settings`` > ``API Tokens`` > ``Add API token``). 
 - In your Github project, goto ``Settings`` > ``Secrets and Variables`` > ``Actions``
-- Create two keys ``TEST_PYPI_API_TOKEN`` and ``PROD_PYPI_API_TOKEN`` and assign the previously created token secrets to these keys
+- Create two `Secrets` keys (`New repository secret`) named ``TEST_PYPI_API_TOKEN`` and ``PROD_PYPI_API_TOKEN`` and assign the previously created token secrets to these keys
 
 ### Overview on config files
 
@@ -37,7 +37,7 @@ env:
   REGEX_PATTERN:  __version__\s*=\s*"(.*)"
   
   # Python version used for building the package
-  PYTHON_VERSION: '3.8'
+  PYTHON_VERSION: '3.11'
 ```
 
 Replace the placeholder for the source file with the relative path to your Python file which contains the version information. Amend the RegEx and the Python version, if necessary.
