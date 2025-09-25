@@ -34,7 +34,6 @@
 # - PROD_PYPI_API_TOKEN and TEST_PYPI_API_TOKEN as Github Secrets (Settings > Secrets > Actions)
 #
 # Configuration settings: 
-# - SOURCE_FILE environment variable: path.to.your.Python.file
 # - PYTHON_VERSION: Python version which is used for building the package
 
 name: Upload Python Package 
@@ -55,10 +54,6 @@ on:
 # Configuration section - change values if necessary
 #
 env:
-
-  # relative path to your file, e.g.
-  # ./MyLib/MyLib.py
-  SOURCE_FILE: ./REPLACE/ME
 
   # Python version used for building the package
   PYTHON_VERSION: '3.11'
