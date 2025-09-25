@@ -2,6 +2,7 @@
 
 from setuptools import setup, find_packages
 import os
+import re
 
 if __name__ == "__main__":
     # get README gnd use as long description
@@ -39,3 +40,4 @@ if __name__ == "__main__":
         install_requires=["my_packet_1", "my_packet_2"],
         keywords=["My Keyword 1", "My Keyword 2"],
     )
+
