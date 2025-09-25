@@ -4,19 +4,33 @@ from setuptools import setup, find_packages
 import os
 import re
 
+VERSION_REGEX = r'__version__\s*=\s*"(.*)"'
+
 if __name__ == "__main__":
     # get README gnd use as long description
     with open("README.md", "r") as fh:
         long_description = fh.read()
 
     # get VERSION value from Github workflow and terminate workflow if value is None
-    VERSION = os.getenv("GITHUB_PROGRAM_VERSION")
-    if not VERSION:
-        raise ValueError("Did not receive version info from GitHub")
+    GITHUB_LABEL_VERSION = os.getenv("GITHUB_LABEL_VERSION")
+    if not GITHUB_LABEL_VERSION:
+        raise ValueError("Did not receive release label version info from GitHub")
+
+    version_from_file = None
 
     # get version info from version file
     with open("_version.py", "r") as fh:
         version_file_content = fh.read()
+        matches = re.findall(VERSION_REGEX, version_file_content,re.IGNORECASE)
+        if not matches:
+            raise ValueError("Did not find version info in _version.py")
+        try:
+            version_from_file = matches[0]
+        except IndexError:
+            raise ValueError("Did not find version info in _version.py")
+
+        if version_from_file != GITHUB_LABEL_VERSION:
+            raise ValueError(f"Version info from _version.py '{version_from_file}' differs from GitHub label version '{GITHUB_LABEL_VERSION}'")
 
     # Amend with your project information
     setup(
