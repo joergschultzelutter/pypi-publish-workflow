@@ -7,6 +7,7 @@ import re
 VERSION_REGEX = r'__version__\s*=\s*"(.*)"'
 MY_SOURCE_DIR = "src"
 
+
 if __name__ == "__main__":
     # get README gnd use as long description
     with open("README.md", "r") as fh:
@@ -45,6 +46,7 @@ if __name__ == "__main__":
         url="URL to my repo",
         packages=find_packages(where=MY_SOURCE_DIR),
         include_package_data=True,
+        # https://pypi.org/classifiers/
         classifiers=[
             "Intended Audience :: Developers",
             "Programming Language :: Python",
