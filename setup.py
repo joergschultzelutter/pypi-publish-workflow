@@ -4,10 +4,19 @@ from setuptools import setup, find_packages
 import os
 import re
 
+# Regex; used in comjunction with VERSION_FILE for
+# retrieving the package's version number
 VERSION_REGEX = r'__version__\s*=\s*"(.*)"'
 
+# source path for the class' package. Amend if necessary
 PACKAGE_SOURCE_DIR = "src"
 
+# Version file. Can be a separate file or included in the
+# package class. We just need this for retrieving the version
+# number from the file - and nothing else.
+VERSION_FILE = "_version.py"
+
+# Amend this section with your custom data
 PACKAGE_NAME="my package name"
 DESCRIPTION = "my description"
 AUTHOR = "author_name"
@@ -49,21 +58,21 @@ if __name__ == "__main__":
     # get version info from a version file
     # amend path to the version file if necessary
     try:
-        with open("_version.py", "r") as fh:
+        with open(VERSION_FILE, "r") as fh:
             version_file_content = fh.read()
     except FileNotFoundError:
-        raise ValueError("Did not find _version.py")
+        raise ValueError(f"Did not find version file '{VERSION_FILE}'")
 
     matches = re.findall(VERSION_REGEX, version_file_content,re.IGNORECASE)
     if not matches:
-        raise ValueError("Did not find version info in _version.py")
+        raise ValueError(f"Did not find version info in '{VERSION_FILE}'")
     try:
         version_from_file = matches[0]
     except IndexError:
-        raise ValueError("Did not find version info in _version.py")
+        raise ValueError(f"Did not find version info in '{VERSION_FILE}'")
 
     if version_from_file != GITHUB_LABEL_VERSION:
-        raise ValueError(f"Version info from _version.py '{version_from_file}' differs from GitHub label version '{GITHUB_LABEL_VERSION}'")
+        raise ValueError(f"Version info '{version_from_file}' from file '{VERSION_FILE}' differs from GitHub label version '{GITHUB_LABEL_VERSION}'")
 
     # Amend with your project information
     setup(
