@@ -74,7 +74,6 @@ if __name__ == "__main__":
     if version_from_file != GITHUB_LABEL_VERSION:
         raise ValueError(f"Version info '{version_from_file}' from file '{VERSION_FILE}' differs from GitHub label version '{GITHUB_LABEL_VERSION}'")
 
-    # Amend with your project information
     setup(
         name=PACKAGE_NAME,
         version=VERSION,
