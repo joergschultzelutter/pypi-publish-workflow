@@ -5,6 +5,7 @@ import os
 import re
 
 VERSION_REGEX = r'__version__\s*=\s*"(.*)"'
+MY_SOURCE_DIR = "src"
 
 if __name__ == "__main__":
     # get README gnd use as long description
@@ -42,7 +43,7 @@ if __name__ == "__main__":
         author="My Name",
         author_email="My email addresse",
         url="URL to my repo",
-        packages=find_packages(),
+        packages=find_packages(where=MY_SOURCE_DIR),
         include_package_data=True,
         classifiers=[
             "Intended Audience :: Developers",
