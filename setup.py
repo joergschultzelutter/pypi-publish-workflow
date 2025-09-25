@@ -14,6 +14,10 @@ if __name__ == "__main__":
     if not VERSION:
         raise ValueError("Did not receive version info from GitHub")
 
+    # get version info from version file
+    with open("_version.py", "r") as fh:
+        version_file_content = fh.read()
+
     # Amend with your project information
     setup(
         name="my package name",
