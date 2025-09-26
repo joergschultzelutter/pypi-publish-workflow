@@ -67,14 +67,13 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v5
-
     # Cancel current build if github reference is not equal to 'tag'
     # e.g. 'master' for regular non-tagged releases. This is automatically
     # assigned by Github; only if you tag a release, this value will be 'tag'
     - name: Cancel build if Github reference is not equal to tag
       if: ${{ github.ref_type != 'tag' }}
       uses: andymckay/cancel-action@0.5
+      
     # Execute sleep if cancellation was triggered
     - name: Sleep if build was cancelled
       if: ${{ github.ref_type != 'tag' }}
@@ -92,10 +91,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install build
+        
     # Build the package. The export MUST be part of THIS step
     # Otherwise, the Python setup job will not see this information
     - name: Build package
       run: export GITHUB_LABEL_VERSION='${{ github.ref_name }}';python -m build
+      
     # Publish everything to Test PyPi
     # Unlike for the Prod branch, we will push both releases and prerelease to PyPi Test
     - name: Publish package to Test PyPi
@@ -105,6 +106,7 @@ jobs:
         user: __token__
         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
         repository_url: https://test.pypi.org/legacy/
+        
     # Publish everything to Prod PyPi but only if it is not a prerelease
     - name: Publish package to Prod PyPi
       if: github.event_name == 'release' && startsWith(github.ref, 'refs/tags') && !github.event.release.prerelease
@@ -115,3 +117,4 @@ jobs:
   #
   # END of Job
   #
+
