@@ -5,7 +5,7 @@ import os
 import re
 
 # source path for the class' package. Amend if necessary
-PACKAGE_SOURCE_DIR = "path/to/class/directorz"
+PACKAGE_SOURCE_DIR = "path/to/class/directory"
 
 # Amend this section with your custom data
 PACKAGE_NAME="package-name"
@@ -76,3 +76,4 @@ if __name__ == "__main__":
         install_requires=INSTALL_REQUIRES,
         keywords=KEYWORDS,
     )
+
