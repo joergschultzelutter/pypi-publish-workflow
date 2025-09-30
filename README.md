@@ -28,11 +28,11 @@ Open the file. You will notice a section which looks like this:
 ```yml
 env:
 
-  # relative path to your file, e.g.
+  # relative path to the file containing your version info, e.g.
   # ./MyLib/MyLib.py
-  SOURCE_FILE:  ./REPLACE/ME
+  SOURCE_FILE: ./REPLACE/ME
 
-  # Regex pattern used for extracting the version data from your fil
+  # Regex pattern used for extracting the version data from your file
   # (usually, this does not need to be changed)
   REGEX_PATTERN:  __version__\s*=\s*"(.*)"
   
@@ -40,7 +40,7 @@ env:
   PYTHON_VERSION: '3.11'
 ```
 
-Replace the placeholder for the source file with the relative path to your Python file which contains the version information. Amend the RegEx and the Python version, if necessary.
+Replace the placeholder for the source file with the relative path to your Python file _which contains the version information_. Amend the RegEx and the Python version, if necessary.
 
 ## Running the Github Action
 
