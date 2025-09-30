@@ -21,7 +21,7 @@ This repo contains three files that you may need to amend and copy to your Githu
 - ``setup.py``: this is a regular Python ``setup.py`` file; amend the file content with your package information and then save the file in your repo's root directory
 - ``publish-to-pypi.yml``: Edit this file, amend the configuration settings (see next chapter) and then save the file in your repo's Github Actions directory (``.github/workflows``). You may also need to activate the new workflow once you have installed it - see [documentation on Github](https://docs.github.com/en/actions).
 
-### Configuring publish-to-pypi.yml
+### `publish-to-pypi.yml` configuration
 
 Open the file. You will notice a section which looks like this:
 
@@ -41,6 +41,62 @@ env:
 ```
 
 Replace the placeholder for the source file with the relative path to your Python file _which contains the version information_. Amend the RegEx and the Python version, if necessary.
+
+### `setup.py` configuration
+
+Open the file. You will need to pupulate the header fields:
+
+```python
+# source path for the class' package. Amend if necessary
+PACKAGE_SOURCE_DIR = "path/to/class/directory"
+
+# Amend this section with your custom data
+PACKAGE_NAME="package-name"
+DESCRIPTION = "package-description"
+AUTHOR = "author-name"
+AUTHOR_EMAIL = "author@email.com"
+URL = "https://www.url.com/to/my/repository"
+# https://pypi.org/classifiers/
+CLASSIFIERS = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Framework :: Robot Framework",
+]
+INSTALL_REQUIRES=[
+    "package_1", 
+    "package_2"
+]
+KEYWORDS=[
+    "Notifications", 
+    "Notification Service", 
+    "Push Notifications", 
+    "Notifier", 
+    "Alerts", 
+    "Robot Framework"
+]
+LICENSE="GNU General Public License v3 (GPLv3)"
+```
+
+- `PACKAGE_SOURCE_DIR` - the path to your package source directory, containing your Python code
+- `PACKAGE_NAME` - (future) PyPi package name
+- `DESCRIPTION` - PyPi package short dkescription
+- `AUTHOR` and `AUTHOR_EMAIL` - self-explanatory
+- `URL` - URL to your package`s repository on GitHub
+- `CLASSIFIERS` - List of classifiers; have a look at [the official list](https://pypi.org/classifiers/)
+- `INSTALL_REQUIRES` - Python packages that are required by your package
+- `KEYWORDS` - Keywords which are associated with your Python package
+
+> [!INFO]
+> When being run as part of the provided GitHub workflow, `setup.py` will receive the future Python package's version info from the GitHub workflow and store it in the `GITHUB_PROGRAM_VERSION` variable. If you intend to install the package directly via `pip install`, you need to set the version info directly in the setup file or the process will fail.
+
+Necessary steps for a manual usage:
+
+- open `setup.py` and assign a version number to the `GITHUB_PROGRAM_VERSION` variable
+- `pip install git+https://github.com/my-repository-name@my-branch#egg=my-package-name`
 
 ## Running the Github Action
 
